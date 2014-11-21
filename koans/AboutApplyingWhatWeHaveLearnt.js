@@ -97,18 +97,12 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should count the ingredient occurrence (functional)", function () {
-    var ingredientCount = {};
-
-    _(products).chain()
-               .map(function(product) { return product.ingredients; })
-               .flatten()
-               .reduce(function(memo, x) {
-                   if (memo[x])
-                       memo[x] += 1;
-                   else
-                       memo[x] = 1;
-                   return memo; }, {})
-               .value();
+    var ingredientCount =_(products)
+        .chain()
+        .map(function(product) { return product.ingredients; })
+        .flatten()
+        .countBy(_.identity)
+        .value();
 
     expect(ingredientCount.mushrooms).toBe(2);
     expect(ingredientCount.artichoke).toBe(1);
